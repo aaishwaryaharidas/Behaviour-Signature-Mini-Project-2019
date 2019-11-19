@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+
+    <title>KeyStroke</title>
+    <!-- Meta-Tags -->
+    {% load static %}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    {#    <meta name="keywords" content="Quick Sign In & Sign Up form a Responsive Web Template, Bootstrap Web Templates, Flat Web Templates, Android Compatible Web Template, Smartphone Compatible Web Template, Free Webdesigns for Nokia, Samsung, LG, Sony Ericsson, Motorola Web Design">#}
+    <script>
+        addEventListener("load", function () {
+            setTimeout(hideURLbar, 0);
+        }, false);
+
+        function hideURLbar() {
+            window.scrollTo(0, 1);
+        }
+    </script>
+    <!-- //Meta-Tags -->
+    <!-- Index-Page-CSS -->
+    <link rel="stylesheet" href="../../static/css/style.css" type="text/css" media="all">
+    <!-- onlinefonts -->
+    <link href="//fonts.googleapis.com/css?family=Dosis:200,300,400,500,600,700,800" rel="stylesheet">
+    <!-- //Custom-Stylesheet-Links -->
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="{% static '/js/typing.js' %}"></script>
+    <script src="{% static '/js/validation2.2.js' %}"></script>
+</head>
+
+<body>
+<header>
+    <h1 class="title-agile text-center">KeyStroke</h1>
+</header>
+<!-- //header -->
+<section class="login-wrap">
+    <div class="login-form">
+            <!-- signin form -->
+            <div class="signin_wthree">
+                <form method="post" action="auth" method="POST" id="subbtn">
+                    {% csrf_token %}
+                    <div class="group">
+                        <label for="user" class="label">Username</label>
+                        <input id="username" name="username" type="text" class="input" req="textonly">
+                    </div>
+                    <div class="group">
+                        <label for="pass" class="label">Password</label>
+                        <input id="inputbox" type="password" name="password" req="" class="input" data-type="password" required>
+
+                    </div>
+                    <div class="group">
+                        <input  type="button" class="button kbutton"  url="/kauth"  value="Sign In">
+                    </div>
+                    <div class="hr"></div>
+                    <div class="foot-lnk">
+                        <h6><a href="change_password">Forgot Password?</a></h6>
+                        <h6><a href="/registerview">New User ?</a></h6>
+                    </div>
+                </form>
+            </div>
+        </div>
+</section>
+<!-- //section -->
+{% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+                <h5 class="text-center text-white"> {{ message }} </h5>
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}
+<footer>
+<script src="{% static '/js/DataController.js' %}"></script>
+</footer>
+</body>
+<!-- //Body -->
+
+</html>

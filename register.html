@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+    <title>KeyStroke</title>
+    <!-- Meta-Tags -->
+    {% load static %}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    {#    <meta name="keywords" content="Quick Sign In & Sign Up form a Responsive Web Template, Bootstrap Web Templates, Flat Web Templates, Android Compatible Web Template, Smartphone Compatible Web Template, Free Webdesigns for Nokia, Samsung, LG, Sony Ericsson, Motorola Web Design">#}
+
+    <link rel="stylesheet" href="../../static/css/style.css" type="text/css" media="all">
+    <!-- onlinefonts -->
+    <link href="//fonts.googleapis.com/css?family=Dosis:200,300,400,500,600,700,800" rel="stylesheet">
+    <!-- //Custom-Stylesheet-Links -->
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="{% static '/js/typing.js' %}"></script>
+    <script src="{% static '/js/validation2.2.js' %}"></script>
+
+</head>
+<body>
+<header>
+    <h1 class="title-agile text-center">KeyStroke</h1>
+</header>
+<!-- //header -->
+<!-- //section -->
+{% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+                <h1 class="text-center text-white"> {{ message }} </h1>
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}
+<section class="login-wrap">
+    <div class="login-form">
+        <form method="post" action="register" method="POST">
+            {% csrf_token %}
+            <div class="group">
+                <label for="name" class="label">Name</label>
+                <input id="name" type="text" name="name"  class="input" req="textonly" minm="4">
+            </div>
+            <div class="group">
+                <label for="username" class="label">Username</label>
+                <input id="username" type="text" name="username" class="input" req="" maxm="15">
+            </div>
+            <div class="group">
+                <label for="inputbox" class="label">Password</label>
+                <input id="inputbox" type="password" name="password" class="input" data-type="password"
+                       req="" minm="5" maxm="12">
+                <div class="group pt-3">
+                    <input type="button" class="button kbutton" url="/create" onclick="attempt(this)" value="Attempt(0/3)">
+                </div>
+                <script>
+                    var i = 0;
+                    function attempt(o){
+                        i++
+                        if(i <=3 ) {
+                            o.value = "Attempt(" + i + "/3)"
+                        }else{
+                             o.value = "Completed"
+                        }
+                    }
+                </script>
+            </div>
+
+            <div class="group">
+                <label for="email" class="label">Email Address</label>
+                <input id="email" type="email" name="email" class="input" req="email">
+            </div>
+
+
+            <div class="group">
+                <input type="submit" class="button" value="Sign Up">
+            </div>
+            <div class="hr"></div>
+            <div class="foot-lnk">
+                <label for="tab-1">Already Member? </label>
+                <h6><a href="/">Login ?</a></h6>
+            </div>
+        </form>
+    </div>
+</section>
+
+<footer>
+
+</footer>
+</body>
+ <script src="{% static '/js/DataController.js' %}"></script>
+
+</html>
