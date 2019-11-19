@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+    <title>KeyStroke</title>
+    <!-- Meta-Tags -->
+    {% load static %}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    {#    <meta name="keywords" content="Quick Sign In & Sign Up form a Responsive Web Template, Bootstrap Web Templates, Flat Web Templates, Android Compatible Web Template, Smartphone Compatible Web Template, Free Webdesigns for Nokia, Samsung, LG, Sony Ericsson, Motorola Web Design">#}
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+    <script>
+        addEventListener("load", function () {
+            setTimeout(hideURLbar, 0);
+        }, false);
+
+        function hideURLbar() {
+            window.scrollTo(0, 1);
+        }
+    </script>
+    <!-- //Meta-Tags -->
+    <!-- Index-Page-CSS -->
+    <link rel="stylesheet" href="../../static/css/style.css" type="text/css" media="all">
+    <!-- onlinefonts -->
+    <link href="//fonts.googleapis.com/css?family=Dosis:200,300,400,500,600,700,800" rel="stylesheet">
+    <!-- //Custom-Stylesheet-Links -->
+</head>
+
+<body>
+<header>
+    <h1 class="title-agile text-center">KeyStroke</h1>
+</header>
+<!-- //header -->
+
+{#<hr>#}
+<div class="container bootstrap snippet">
+    <div class="row">
+        <div class="col-sm-2">
+            <a href="/logout" class="pull-right">
+                <img title="profile image"
+                     class="img-circle img-responsive"
+                     width="25px"
+                     src="https://media.istockphoto.com/vectors/power-button-vector-id1160410653">
+            </a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-1"></div>
+        <div class="col-sm-9">
+            <div class="container">
+                <div style="max-width: 80%; table-layout:auto; overflow: auto">
+                    <input class="form-control" id="myInput" type="text" placeholder="Search..">
+                    <br>
+
+                    <table class="table table-bordered text-center text-white">
+                        <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Activity</th>
+                            <th>Timestamp</th>
+                            <th>Status</th>
+                        </tr>
+                        </thead>
+                        <tbody id="myTable">
+
+                        </tbody>
+                    </table>
+                </div>
+
+                <script>
+                    $(document).ready(function () {
+                        $("#myInput").on("keyup", function () {
+                            var value = $(this).val().toLowerCase();
+                            $("#myTable tr").filter(function () {
+                                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                            });
+                        });
+                    });
+                </script>
+
+            </div>
+        </div>
+    </div>
+
+</div><!--/tab-pane-->
+<footer>
+    <div class="copy-wthree text-center">
+        {#            <p>© 2018 Quick Signin & Signup form. All rights reserved | Design by#}
+        {#                <a href="http://w3layouts.com">W3layouts</a>#}
+        {#            </p>#}
+    </div>
+</footer>
+<!-- //footer -->
+<!-- script for password match -->
+<script>
+    window.onload = function () {
+        document.getElementById("password1").onchange = validatePassword;
+        document.getElementById("password2").onchange = validatePassword;
+    }
+
+    function validatePassword() {
+        var pass2 = document.getElementById("password2").value;
+        var pass1 = document.getElementById("password1").value;
+        if (pass1 != pass2)
+            document.getElementById("password2").setCustomValidity("Passwords Don't Match");
+        else
+            document.getElementById("password2").setCustomValidity('');
+        //empty string means no validation error
+    }
+
+    $(document).ready(function () {
+
+
+        var readURL = function (input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('.avatar').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+
+        $(".file-upload").on('change', function () {
+            readURL(this);
+        });
+    });
+
+</script>
+<!-- script for password match -->
+</body>
+<!-- //Body -->
+
+</html>

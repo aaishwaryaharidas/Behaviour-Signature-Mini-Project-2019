@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+     {% load static %}
+    <meta charset="UTF-8">
+    <title>Moses register</title>
+     <link rel="stylesheet" href="../../static/css/style.css" type="text/css" media="all">
+    <style>
+
+        * {
+            font-family: Georgia;
+        }
+
+        #patterns {
+            width: 200px;
+            float: left;
+        }
+
+        #sampler {
+            width: 400px;
+            height: 290px;
+            margin: 5px;
+            float: left;
+            border-radius: 10px;
+            background-color: #a4bfd1;
+            position: relative;;
+        }
+
+        .pattern {
+            width: 90px;
+            height: 90px;
+            margin: 5px;
+            float: left;
+            border-radius: 10px;
+            background-color: #a4bfd1;
+        }
+
+        #sampler__info {
+            font-size: 10px;
+            right: 10px;
+            bottom: 10px;
+            position: absolute;
+        }
+
+        #sampler__path {
+            fill: none;
+            stroke: #410006;
+            stroke-width: 1.5px;
+        }
+
+        .pattern svg, .pattern svg g {
+            width: 90px;
+            height: 90px;
+            fill: none;
+            stroke: #410006;
+            stroke-width: 1.5px;
+        }
+
+        #sampler svg, #sampler__drawings {
+            width: 400px;
+            height: 290px;
+        }
+
+        .recognised {
+            background-color: #8c9c09;
+        }
+
+        .error {
+            background-color: #f83201 !important;
+        }
+
+    </style>
+
+
+    <script src="{% static '/js/moses.js' %}"></script>
+
+
+	
+    <script>
+		var isDrag = false;
+		var mosesPatterns = moses.model.MosesPatterns.create();
+        
+		
+		function coordinate(event) { 
+			if(isDrag){
+				var x = event.clientX;  
+				var y = event.clientY; 
+				mosesPatterns.V.data.push({"x":x, "y":y});
+				console.log(JSON.stringify(mosesPatterns))
+			}
+		} 
+		function save() { 
+			var username = document.getElementById("username").value;
+			if(username==''){
+				alert("Please enter name")
+				return false;
+			}
+			
+			
+			mosesPatterns.V.name = username;
+			var o  = {"name":username,"data":mosesPatterns.V.data}
+			localStorage.setItem("pattern",JSON.stringify(o))
+			isDrag = false;
+			//var json = JSON.parse(localStorage.getItem("pattern"))
+			//alert(JSON.stringify(json.name))
+			
+            var patterns = [mosesPatterns.V, mosesPatterns.CIRCLE, mosesPatterns.DASH, mosesPatterns.SQUARE, mosesPatterns.SEVEN, mosesPatterns.Z];
+
+            var div = document.getElementById("sampler");
+
+            var patternPaths = document.getElementsByClassName("pattern-path");
+            var pattern, svgPath, path;
+            for (var i = 0; i < patterns.length; i++) {
+                pattern = patterns[i];
+                svgPath = patternPaths[i];
+                drawPoints(svgPath, normalise(pattern.patterns ? pattern.patterns[0].data : pattern.data, 60, 60, 15, 15));
+            }
+			
+			var patternPaths = document.getElementsByClassName("pattern-path");
+            var pattern, svgPath, path;
+            for (var i = 0; i < patterns.length; i++) {
+                pattern = patterns[i];
+                svgPath = patternPaths[i];
+                drawPoints(svgPath, normalise(pattern.patterns ? pattern.patterns[0].data : pattern.data, 60, 60, 15, 15));
+            }
+		} 
+		function start() { 
+			mosesPatterns.V.data = [];
+			isDrag = true;
+		} 
+		
+		function drawPoints(element, points) {
+            var path = 'M' + points[0].x + ' ' + points[0].y;
+            path += points.slice(1).map(function(point) {
+                return ' L' + point.x + ' ' + point.y
+            }).join('');
+            element.setAttribute('d', path);
+        }
+
+        function normalise(points, maxWidth, maxHeight, offsetX, offsetY) {
+            var rect = {x1: Infinity, y1: Infinity, x2: -Infinity, y2: -Infinity};
+            points.forEach(function(point) {
+                rect.x1 = Math.min(point.x, rect.x1);
+                rect.y1 = Math.min(point.y, rect.y1);
+                rect.x2 = Math.max(point.x, rect.x2);
+                rect.y2 = Math.max(point.y, rect.y2);
+            });
+            var deltaX = rect.x1,
+                deltaY = rect.y1;
+            rect.x2 -= rect.x1;
+            rect.y2 -= rect.y1;
+            rect.x1 = 0;
+            rect.y1 = 0;
+            var factorX = rect.x2 / maxWidth,
+                factorY = rect.y2 / maxHeight,
+                factor = Math.max(factorX, factorY);
+            points = points.map(function(point) {
+                var x = (point.x - deltaX) / factor + (offsetX || 0),
+                    y = (point.y - deltaY) / factor + (offsetY || 0);
+                return moses.model.Point.create(x, y);
+            });
+            return points;
+        }        
+    </script>
+</head>
+<body  >
+
+        <a href="/mousereg" >Mouse Register</a>
+<a href="/mouseauth">Mouse Auth</a><br/><br/>
+      <input type="text" placeholder="Enter your username" id="username">
+        <center>
+<div id="main" onmousemove="coordinate(event)" onmouseup="save()" onmousedown="start()">
+    <div id="patterns">
+        <div class="pattern"><svg><g><path class="pattern-path"></path></g></svg></div>
+        <div class="pattern"><svg><g><path class="pattern-path"></path></g></svg></div>
+        <div class="pattern"><svg><g><path class="pattern-path"></path></g></svg></div>
+        <div class="pattern"><svg><g><path class="pattern-path"></path></g></svg></div>
+        <div class="pattern"><svg><g><path class="pattern-path"></path></g></svg></div>
+        <div class="pattern"><svg><g><path class="pattern-path"></path></g></svg></div>
+    </div>
+    <div id="sampler">
+        <span id="sampler__info">draw pattern here</span>
+        <svg>
+            <g id="sampler__drawings">
+                <path id="sampler__path"></path>
+            </g>
+        </svg>
+    </div>
+</div>
+            </center>
+
+
+</body>
+</html>

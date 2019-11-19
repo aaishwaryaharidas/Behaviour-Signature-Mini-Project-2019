@@ -1,0 +1,99 @@
+<html class="gr__webcodingeasy_com">
+<head>
+     <link rel="stylesheet" href="../../static/css/style.css" type="text/css" media="all">
+</head>
+{% load static %}
+<body data-gr-c-s-loaded="true">
+<div style="position: absolute; z-index: 1000">
+    <a href="/mousereg">Mouse Register</a>
+    <a href="/mouseauth">Mouse Auth</a><br/><br/>
+</div>
+<h1 style="text-align: center;" id="result">Result: </h1>
+<script type="text/javascript" src="{% static '/js/gestures.packed.js' %}"></script>
+<script type="text/javascript">
+    function callback(name) {
+        document.getElementById("result").innerHTML = "Result: " + name;
+    }
+
+    var gest = new gestures({
+        debug: true,
+        draw: true,
+        drawColor: "#000000",
+        drawWidth: 5,
+        autoTrack: true,
+        allowRotation: true,
+        inverseShape: true,
+        points: 33
+    });
+    var json = JSON.parse(localStorage.getItem("pattern"))
+    //alert(JSON.stringify(json.V))
+    gest.addGesture(json.name, json.data, callback);
+    gest.addGesture("Line", [
+        {x: 0, y: 0},
+        {x: 0, y: 50},
+        {x: 0, y: 100}
+    ], callback);
+
+    gest.addGesture("Square", [
+        {x: 0, y: 0},
+        {x: 200, y: 0},
+        {x: 200, y: 200},
+        {x: 0, y: 200},
+        {x: 0, y: 0}
+    ], callback);
+
+    gest.addGesture("Rectangle", [
+        {x: 0, y: 0},
+        {x: 210, y: 0},
+        {x: 210, y: 100},
+        {x: 0, y: 100},
+        {x: 0, y: 0}
+    ], callback);
+
+    gest.addGesture("ZigZag", [
+        {x: 0, y: 0},
+        {x: 50, y: 87},
+        {x: 100, y: 0},
+        {x: 150, y: 87}
+    ], callback);
+
+    gest.addGesture("Triangle", [
+        {x: 0, y: 0},
+        {x: 100, y: 100},
+        {x: 0, y: 100},
+        {x: 0, y: 0}
+    ], callback);
+
+    gest.addGesture("Equilateral Triangle", [
+        {x: 0, y: 0},
+        {x: 50, y: 87},
+        {x: 100, y: 0},
+        {x: 0, y: 0}
+    ], callback);
+
+    gest.addGesture("Check", [
+        {x: 0, y: 0},
+        {x: 50, y: 50},
+        {x: 100, y: 0},
+    ], callback);
+
+
+    var x = 0;
+    var y = -100;
+    var circle = [];
+    var totalPoints = 72;
+    var step = (Math.PI * 2) / totalPoints;
+
+    for (var angle = 1; angle < totalPoints; angle++) {
+        var newX = x * Math.cos(angle * step) - y * Math.sin(angle * step);
+        var newY = y * Math.cos(angle * step) + x * Math.sin(angle * step);
+        var point = {x: newX, y: newY};
+        circle.push(point);
+    }
+
+    gest.addGesture("Circle", circle, callback)
+</script>
+<canvas width="1050px" height="450px" id="gestures_canvas" style="position: absolute; top: 0px; left: 0px;border: 2px solid gray"></canvas>
+
+</body>
+</html>
